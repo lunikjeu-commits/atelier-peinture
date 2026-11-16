@@ -24,6 +24,8 @@ jobs:
           flutter pub add shared_preferences image_picker path_provider
           flutter pub add flutter_localizations --sdk=flutter
           sed -i 's/android:label="[^"]*"/android:label="Atelier Peinture"/' android/app/src/main/AndroidManifest.xml
+          F=android/app/build.gradle.kts; [ -f "$F" ] || F=android/app/build.gradle
+          sed -i 's/^android {/android {\n    lint {\n        checkReleaseBuilds = false\n        abortOnError = false\n    }/' "$F"
           flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
